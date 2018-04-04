@@ -97,7 +97,7 @@ namespace WindowsService1
                                             + "往返时间::" + reply.RoundtripTime+ "\r\n"
                                               + "生存时间TTL::" + reply.Options.Ttl+ "\r\n"
                                              + "缓冲区大小::" + reply.Buffer.Length+ "\r\n"
-                                             + "数据包是否分段::" + reply.Options.DontFragment;+ "\r\n"
+                                             + "数据包是否分段::" + reply.Options.DontFragment+ "\r\n";
                 }
             }
             catch (Exception ex)
