@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 using System.IO;
 using System.Timers;
-
+using System.Net.NetworkInformation;
 namespace WindowsService1
 {
     public partial class Service1 : ServiceBase
@@ -79,7 +79,26 @@ namespace WindowsService1
             try
             {
                 //.........
-                result = "执行成功，时间：" + DateTime.Now.ToString("HH:mm:ss") + "\r\n";
+                //Ping 实例对象;
+                Ping pingSender = new Ping();
+                //ping选项;
+                PingOptions options = new PingOptions();
+                options.DontFragment = true;
+                string data = "ping test data";
+                byte[] buf = Encoding.ASCII.GetBytes(data);
+                //调用同步send方法发送数据，结果存入reply对象;
+                PingReply reply = pingSender.Send("www.baidu.com", 120, buf, options);
+
+                if (reply.Status == IPStatus.Success)
+                {
+
+                    result = "执行成功，时间：" + DateTime.Now.ToString("HH:mm:ss") + "\r\n"
+                                            + "主机地址::" + reply.Address+ "\r\n"
+                                            + "往返时间::" + reply.RoundtripTime+ "\r\n"
+                                              + "生存时间TTL::" + reply.Options.Ttl+ "\r\n"
+                                             + "缓冲区大小::" + reply.Buffer.Length+ "\r\n"
+                                             + "数据包是否分段::" + reply.Options.DontFragment;+ "\r\n"
+                }
             }
             catch (Exception ex)
             {
